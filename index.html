@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pickup Lines (Appropriate)</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    #container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      max-width: 600px;
+      margin: 50px auto;
+      animation: fade-in 1s; /* Add animation to container */
+    }
+
+    #get-quote-button {
+      display: block;
+      margin: 20px auto;
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 25px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    #get-quote-button:hover {
+      background-color: #ff1493;
+      transform: scale(1.05);
+    }
+
+    #quote {
+      margin-top: 30px;
+      font-size: 26px;
+      line-height: 1.5;
+      white-space: pre-wrap; /* Ensures that line breaks are preserved */
+      color: #555;
+      animation: fade-in 1s; /* Add animation to quote */
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #ff69b4;
+      animation: fade-in 1s; /* Add animation to header */
+    }
+
+    h2 {
+      font-size: 32px; /* Increased font size to make it closer to h1 */
+      font-weight: bold; /* Added bold font weight */
+      color: #ff69b4;
+      margin-bottom: 10px; /* Add margin to bring h2 closer to h1 */
+    }
+
+    .quote-container {
+      position: relative;
+      padding: 20px;
+      border: 2px dashed #ff69b4;
+      border-radius: 10px;
+      background-color: #fff0f5;
+      display: inline-block;
+      animation: spin 2s; /* Add animation to quote container */
+    }
+
+    .quote-container::before,
+    .quote-container::after {
+      content: '"';
+      font-size: 50px;
+      color: #ff69b4;
+      position: absolute;
+    }
+
+    .quote-container::before {
+      top: -30px;
+      left: -20px;
+    }
+
+    .quote-container::after {
+      bottom: -30px;
+      right: -20px;
+    }
+
+    /* Animations */
+
+    @keyframes fade-in {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Timer Countdown Styles */
+    #timer {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff69b4;
+      margin-top: 20px;
+    }
+
+    /* Media Queries */
+
+    /* Large screens (desktops) */
+    @media (min-width: 1200px) {
+      #container {
+        max-width: 800px;
+        margin: 100px auto;
+      }
+      #get-quote-button {
+        font-size: 24px;
+        padding: 20px 40px;
+      }
+      #quote {
+        font-size: 30px;
+      }
+      h1 {
+        font-size: 48px;
+      }
+      h2 {
+        font-size: 40px; /* Increased font size to make it closer to h1 */
+      }
+    }
+
+    /* Medium screens (tablets) */
+    @media (min-width: 768px) and (max-width: 1199px) {
+      #container {
+        max-width: 600px;
+        margin: 80px auto;
+      }
+      #get-quote-button {
+        font-size: 22px;
+        padding: 18px 36px;
+      }
+      #quote {
+        font-size: 28px;
+      }
+      h1 {
+        font-size: 42px;
+      }
+      h2 {
+        font-size: 36px;
+      }
+    }
+
+    /* Small screens (mobiles) */
+    @media (max-width: 767px) {
+      #container {
+        max-width: 400px;
+        margin: 60px auto;
+      }
+      #get-quote-button {
+        font-size: 20px;
+        padding: 15px 30px;
+      }
+      #quote {
+        font-size: 24px;
+      }
+      h1 {
+        font-size: 36px;
+      }
+      h2 {
+        font-size: 30px;
+      }
+    }
+
+    /* Extra small screens (small mobiles) */
+    @media (max-width: 479px) {
+      #container {
+        max-width: 300px;
+        margin: 40px auto;
+      }
+      #get-quote-button {
+        font-size: 18px;
+        padding: 12px 24px;
+      }
+      #quote {
+        font-size: 20px;
+      }
+      h1 {
+        font-size: 30px;
+      }
+      h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Flirting Revision Set </h1>
+    <h2 style="color: #ff69b4; margin-bottom: 10px;">Pickup Lines</h2>
+    <button id="get-quote-button">Get Flashcard</button>
+    <div class="quote-container">
+      <p id="quote"></p>
+    </div>
+    <p id="flashcard-count">Flashcards done: 0</p>
+  </div>
+
+  <script>
+    const url = 'https://nerdy-pickup-lines1.p.rapidapi.com/pickup_lines/random';
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': '09a9c7f08dmsh378cc361ee6001dp104043jsnb5af60f805c1',
+        'x-rapidapi-host': 'nerdy-pickup-lines1.p.rapidapi.com'
+      }
+    };
+
+    const getQuoteButton = document.getElementById('get-quote-button');
+    const quote = document.getElementById('quote');
+    const flashcardCount = document.getElementById('flashcard-count');
+
+    let flashcardCountValue = 0;
+
+    getQuoteButton.addEventListener('click', async () => {
+      try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        quote.textContent = result.random_pickup_line;
+        quote.classList.add('animate'); /* Add animation class to quote */
+
+        // Increment flashcard count
+        flashcardCountValue++;
+        flashcardCount.textContent = `Flashcards done: ${flashcardCountValue}`;
+
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
